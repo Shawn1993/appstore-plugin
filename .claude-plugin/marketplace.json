@@ -1,0 +1,11 @@
+{
+  "name": "appstore-plugin",
+  "owner": { "name": "Shawn1993" },
+  "plugins": [
+    {
+      "name": "appstore",
+      "source": "./",
+      "description": "App Store 全生命周期管理 skill：上架、审计、被拒恢复、TestFlight、ASO"
+    }
+  ]
+}
