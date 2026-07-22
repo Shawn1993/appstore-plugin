@@ -22,7 +22,7 @@ asc metadata push --app "APP_ID" --version "1.2.3" --dir "./metadata"           
 asc metadata keywords diff --app "APP_ID" --version "1.2.3" --dir "./metadata"
 ```
 
-坑：copyright 不是本地化字段（`asc versions update --copyright`）；promotional text 是唯一不发版可改的字段；描述不参与搜索索引。
+坑：copyright 不是本地化字段（用 `asc versions update --copyright`）。字段索引权重与免审改动规则见 references/aso-playbook.md §1。
 
 ## 构建与上传
 
