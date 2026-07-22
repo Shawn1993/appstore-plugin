@@ -106,19 +106,16 @@ xcodebuild -exportArchive -archivePath build/<App>.xcarchive \
 - **增长面**：自定义产品页（不同渠道不同截图）、in-app events、A/B 测试商店页
 - **数据**：asc CLI 拉 analytics/销售报表（references/asc-cli.md）
 
-## Gotchas
+## Gotchas（普适项）
 
-- ⚠️ **声明 iPad = 审核员真的用 iPad 测**。老 iPhone 模板三大必炸：按屏宽线性放大字号的弹窗、只声明竖屏在 iPadOS 窗口化下横屏黑边（加 `INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad` 四方向）、启动屏大屏暴露小字残留。不想处理就 TDF=1 先 iPhone-only，后续版本加 iPad 无额外门槛
-- ⚠️ **老壳模板品牌残留固定查四处**：launch storyboard 小字 label、常量文件里的协议 URL、微信 appid/universalLink + Info.plist wx scheme、entitlements associated-domains。未启用的三方能力清空并停注册，比换假值干净
+- ⚠️ **声明 iPad = 审核员真的用 iPad 测**：提审前必须在 iPad（真机或模拟器）过一遍主流程；不想适配就 `TARGETED_DEVICE_FAMILY = 1` 先 iPhone-only，后续版本加 iPad 无额外门槛。App 源自模板/老项目/壳 → 必读 references/derived-app-audit.md（品牌残留四查处、iPad 三必炸点、壳提审开关等专项）
 - ⚠️ **ICP 三个号别混**：ASC 填 **App 备案服务号**（`粤ICP备XXX号-2A`，字母 A 后缀），不是主体号也不是网站号。工信部另要求 App 内展示此号（我的/关于页，苹果不查、监管抽查）
 - ⚠️ **无登录 App**：审核信息「需要登录」默认勾着，必须取消；勾着+空账号密码必打回
 - ⚠️ **出口合规**：HTTPS 是「是→仅豁免加密」不是"无加密"；Info.plist `ITSAppUsesNonExemptEncryption = NO` 免每次弹窗
-- ⚠️ **截图 tab ≠ 必填**：Watch tab 永远显示；只有"无法添加以供审核"错误点名的档位才必填
+- ⚠️ **截图必填档位以报错为准**：ASC 界面常显示多余的可选 tab（如 Apple Watch），只有「无法添加以供审核」错误里点名的档位才必须补
 - ⚠️ **中国区敏感词查全部 locale**：ChatGPT/Gemini 等境外 AI 名任何语言版本出现都算（preflight 规则库实测案例）
 - ⚠️ **PrivacyInfo.xcprivacy 被三方 SDK 传染性要求**：自己没调 Required Reason API，SDK 用了 UserDefaults 也要有隐私清单，缺了 ITMS 警告
 - ⚠️ **订阅双链接**：ToS/隐私政策在 App Store 描述和 App 内购买页都要有，缺任一处是独立拒审项
-- ⚠️ **simctl 测首启**：沙盒 UserDefaults 用 `simctl spawn defaults` 写不进（Domain not found），卸载重装或直写容器 plist（get_app_container + PlistBuddy）；`launch --console-pty` 的 app 生命周期绑控制台进程，kill 连带杀 app
-- ⚠️ **壳 App 提审开关**：接口"空→内置本地包，URL→远程"。本地包走 WKURLSchemeHandler 自定义 scheme（file:// 下 fetch 本地 JSON 被拦），该 scheme 页面请求带 `Origin: <scheme>://<host>`（**不是 null**），服务端 CORS 按前缀放行
 
 ## 护栏
 
