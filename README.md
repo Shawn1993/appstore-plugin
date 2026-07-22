@@ -45,15 +45,23 @@ cp -R appstore-plugin/skills/appstore ~/.claude/skills/
 
 ```
 skills/appstore/
-├── SKILL.md                    # 主路由：dispatch 表 + 六阶段 SOP + gotchas
+├── SKILL.md                    # 主路由：dispatch 表 + 六阶段 SOP + gotchas + 护栏
 ├── assets/
 │   ├── metadata-template.md    # 提审资料全字段模板
 │   └── UploadOptions.plist     # xcodebuild 直传配置
+├── scripts/
+│   └── refresh-sitemap.sh      # 重抓官方帮助全站索引
 └── references/
-    ├── asc-cli.md              # asc CLI 实战手册
-    ├── aso-playbook.md         # ASO 方法论（零外部 API 依赖）
-    ├── screenshots.md          # 截图尺寸与生产路线
-    └── preflight/              # 拒审规则库（引自 app-store-preflight-skills, MIT）
+    ├── guides/                 # 自有方法论
+    │   ├── asc-cli.md          #   asc CLI 实战手册
+    │   ├── aso-playbook.md     #   ASO 与上线后运营（零外部 API 依赖）
+    │   ├── screenshots.md      #   截图尺寸与生产路线
+    │   ├── regions.md          #   全球地区合规矩阵
+    │   └── derived-app-audit.md#   模板/壳衍生 App 专项审计
+    ├── official/               # 官方文档索引
+    │   ├── index.md            #   高频官方页 + 三体系信任等级
+    │   └── sitemap.md          #   ASC Help 全站 263 页
+    └── preflight/              # 拒审规则库（第三方，MIT）
 ```
 
 ## 前置条件

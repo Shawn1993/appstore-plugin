@@ -1,11 +1,11 @@
 #!/bin/bash
-# 重抓 ASC 官方帮助全站索引 → references/official-docs-sitemap.md
+# 重抓 ASC 官方帮助全站索引 → references/official/sitemap.md
 # 苹果改版目录后跑一次即可。依赖：curl、python3。
 set -euo pipefail
 DIR="$(cd "$(dirname "$0")/.." && pwd)"
 TMP="$(mktemp)"
 curl -s --max-time 30 "https://developer.apple.com/help/app-store-connect/" -o "$TMP"
-python3 - "$TMP" "$DIR/references/official-docs-sitemap.md" << 'PYEOF'
+python3 - "$TMP" "$DIR/references/official/sitemap.md" << 'PYEOF'
 import re, sys, collections
 html = open(sys.argv[1], encoding="utf-8").read()
 pairs = re.findall(r'<a[^>]+href="(/help/app-store-connect/[^"#]*)"[^>]*>(.*?)</a>', html, re.S)
