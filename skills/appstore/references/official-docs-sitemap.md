@@ -1,7 +1,7 @@
 # App Store Connect 官方帮助全站索引（自动抓取）
 
 > 来源：developer.apple.com/help/app-store-connect/ 着陆页 TOC 全量抓取。
-> 用法：按主题定位到页面后 WebFetch 原文；本索引可用同法重抓刷新。
+> 用法：按主题定位到页面后 WebFetch 原文；刷新：scripts/refresh-sitemap.sh。
 
 ## _root（1）
 
