@@ -99,23 +99,24 @@ h1{font:700 26px/1.3 inherit;letter-spacing:-.01em;margin:0 0 4px}
 .shot.pad{width:190px}
 .shot img{width:100%;display:block;border-radius:10px;border:1px solid var(--hair);box-shadow:var(--shadow)}
 .shot figcaption{font-size:11.5px;color:var(--ink2);text-align:center;padding-top:6px;font-variant-numeric:tabular-nums}
-/* 审计条目 */
-.issue{border:1px solid var(--hair);border-left-width:4px;border-radius:10px;padding:14px 18px;margin-bottom:12px;background:var(--card)}
+/* 审计条目：标题优先，元信息一行收底 */
+.issue{border:1px solid var(--hair);border-left-width:4px;border-radius:10px;padding:16px 20px;margin-bottom:12px;background:var(--card)}
 .issue.crit{border-left-color:var(--crit)}
 .issue.warn{border-left-color:var(--warn)}
-.issue .row1{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
-.src{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:500;padding:3px 10px;border-radius:99px;background:var(--bg);border:1px solid var(--hair);color:var(--ink2);text-decoration:none!important;transition:color .18s}
-.src::after{content:"↗";font-size:10px;opacity:.6}
-.src:hover{color:var(--link)}
-.state{font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:99px}
-.state.fixed{background:var(--ok-bg);color:var(--ok)}
-.state.pend{background:var(--warn-bg);color:var(--warn)}
-.issue b.title{font-size:14.5px;display:block;margin-bottom:3px}
+.issue b.title{font-size:15px;display:block;margin-bottom:4px;letter-spacing:-.005em}
 .issue .d{color:var(--ink2);font-size:13.5px;margin:0}
-.issue .fix{font-size:13px;margin:10px 0 0;padding-top:9px;border-top:1px dashed var(--hair)}
-.issue .fix::before{content:"处置";color:var(--ok);font-weight:700;font-size:11px;letter-spacing:.1em;margin-right:8px}
-.passgrid{display:flex;flex-wrap:wrap;gap:8px}
-.pass{background:var(--ok-bg);color:var(--ok);font-size:12.5px;padding:5px 13px;border-radius:99px;text-decoration:none!important}
+.imeta{display:flex;align-items:center;gap:6px;margin-top:12px;padding-top:10px;border-top:1px solid var(--hair);font-size:12.5px;color:var(--ink2)}
+.imeta .src{color:var(--link);text-decoration:none}
+.imeta .src::after{content:" ↗";font-size:10px;opacity:.7}
+.imeta .state{margin-left:auto;font-weight:600}
+.imeta .state.fixed{color:var(--ok)}
+.imeta .state.fixed::before{content:"✓ "}
+.imeta .state.pend{color:var(--warn)}
+.passlist{display:grid;grid-template-columns:1fr 1fr;gap:2px 28px}
+.pc{display:flex;gap:9px;font-size:13.5px;padding:7px 0;color:var(--ink);align-items:baseline;text-decoration:none}
+.pc::before{content:"✓";color:var(--ok);font-weight:700;flex:none}
+a.pc:hover{color:var(--link);text-decoration:none}
+@media (max-width:600px){.passlist{grid-template-columns:1fr}}
 /* 术语 tooltip */
 .t{border-bottom:1px dotted var(--ink2);cursor:help;position:relative;outline:none}
 .t::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%) translateY(4px);width:max-content;max-width:280px;background:var(--tipbg);color:var(--tipfg);font-size:12.5px;line-height:1.6;padding:9px 12px;border-radius:9px;opacity:0;pointer-events:none;transition:all .25s ease;z-index:10;text-align:left;white-space:normal;box-shadow:0 10px 30px -10px rgba(0,0,0,.4)}
@@ -163,8 +164,7 @@ footer{color:var(--ink2);font-size:12px;text-align:center;padding:20px}
   </nav>
   <div class="navgroup">Skill 产出</div>
   <nav>
-    <button data-tab="audit">提审审计<span class="n alert">{未解决数}</span></button>
-    <button data-tab="todo">待办</button>
+    <button data-tab="audit">审计与待办<span class="n alert">{未解决数}</span></button>
   </nav>
 </aside>
 <main>
@@ -250,28 +250,23 @@ footer{color:var(--ink2);font-size:12px;text-align:center;padding:20px}
 </section>
 
 <section data-tab="audit">
-  <h1>提审审计</h1>
-  <p class="sub">规则库扫描结果 · 依据均可点击溯源</p>
+  <h1>审计与待办</h1>
+  <p class="sub">规则库扫描结果与下一步动作 · 依据均可点击溯源</p>
   <div class="statusbar"><div class="dot"></div><div><b>{审计总判定}</b></div></div>
-  <div class="issue crit">
-    <div class="row1">
-      <a class="src" href="{条款/文档 URL}" target="_blank">{依据名}</a>
-      <span class="state pend">{处置时机}</span><!-- 或 <span class="state fixed">已修复 · {build}</span> -->
-    </div>
-    <b class="title">{发生了什么后果，不写术语}</b>
-    <p class="d">{先影响后机制；术语：<span class="t" tabindex="0" data-tip="大白话解释">术语</span>}</p>
-  </div>
-  <!-- 风险项用 class="issue warn" -->
-  <div class="card"><div class="card-h"><h3>已核通过 · {N} 条</h3></div><div class="card-b">
-    <div class="passgrid"><a class="pass" href="{条款锚点}" target="_blank">{条款号 名目}</a><span class="pass">{无外链名目}</span></div>
+  <div class="card"><div class="card-h"><h3>下一步</h3></div><div class="card-b next">
+    <ol><li>{动作，按优先级}<small>{说明；派生自下方问题的注明关联}</small></li></ol>
   </div></div>
-</section>
-
-<section data-tab="todo">
-  <h1>待办</h1>
-  <p class="sub">按优先级排列</p>
-  <div class="card"><div class="card-b next">
-    <ol><li>{动作}<small>{说明}</small></li></ol>
+  <div class="issue crit">
+    <b class="title">{发生了什么后果，不写术语}</b>
+    <p class="d">{一两句：先影响后机制；术语用 <span class="t" tabindex="0" data-tip="大白话解释">术语</span>}</p>
+    <div class="imeta">依据 <a class="src" href="{条款/文档 URL}" target="_blank">{依据名}</a><span class="state pend">{处置时机}</span><!-- 或 <span class="state fixed">已修复 · {build}</span> --></div>
+  </div>
+  <!-- 风险项用 class="issue warn"，结构同上 -->
+  <div class="card"><div class="card-h"><h3>已核通过 · {N} 条</h3></div><div class="card-b">
+    <div class="passlist">
+      <a class="pc" href="{条款锚点}" target="_blank">{条款号 名目}</a>
+      <span class="pc">{无外链名目}</span>
+    </div>
   </div></div>
 </section>
 
