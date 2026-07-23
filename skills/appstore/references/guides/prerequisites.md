@@ -41,3 +41,21 @@
 5. 查询与核对：https://beian.miit.gov.cn
 
 **时间规划**：备案是上架路径上最长的外部依赖（可能 2-3 周），立项就该启动，别等 App 做完。开发者账号（公司版含 DUNS 也要 1-2 周）同理。其余环节（Key、协议页、物料）都是小时级。
+
+## 4. 高频困惑 FAQ（实际被问过的）
+
+**Q：Apple ID 的地区会影响 App 发布地区吗？**
+不会。App 卖到哪由 ASC「价格与销售范围」决定，与开发者 Apple ID 的地区无关。Apple ID 地区影响的是：你自己手机 App Store 能下载哪个区的 App（测试自己的 App 时账号要切到对应区）、收款合同的签约实体与货币。
+
+**Q：哪些东西是账号级的、哪些是 App 级的？**
+| 账号级（整个开发者账号共享一份） | App 级（每个 App 各一份） |
+|---|---|
+| 开发者会员、协议/税务/银行 | App 记录、bundle id |
+| ASC API Key、证书（分发证书全账号通用） | 描述文件（按 bundle id）|
+| 团队成员与角色 | 元数据/截图/定价/备案号 |
+| DUNS/公司主体 | 内购商品、TestFlight 组 |
+
+意味着：第二个 App 上架时，账号级的东西全部复用，只做 App 级的活——比第一次快得多。
+
+**Q：开发证书签的包能发布吗？和分发签名什么区别？**
+Development 证书签的包只能装在注册过的测试设备上；上 App Store/TestFlight 必须 **Distribution** 证书 + App Store 描述文件。用本 skill 的 xcodebuild 直传命令不用操心这些——`-allowProvisioningUpdates` + API Key 会自动选对。
