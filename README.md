@@ -1,8 +1,8 @@
 # ship-appstore
 
-App Store 全生命周期管理的 Claude Code plugin。从「只给一个网站 URL」到提审通过，一条龙覆盖：
+**中文** | [English](README.en.md)
 
-**A full-lifecycle App Store management skill for Claude Code** — from "just give me your website URL" to approved release: metadata generation, screenshot production, CLI build upload, App Store Connect walkthrough, rejection-rule audit, rejection recovery, TestFlight, and post-launch ASO. Includes China-specific compliance (ICP filing, advertising-law wording, review-mode switch pattern for hybrid apps).
+App Store 全生命周期管理的通用 agent skill（Claude Code / Codex / Gemini CLI / OpenClaw…）。从「只给一个网站 URL」到提审通过，一条龙覆盖。
 
 ## 功能
 
@@ -15,6 +15,12 @@ App Store 全生命周期管理的 Claude Code plugin。从「只给一个网站
 | 提审审计 | 内置拒审规则库（按 app 类型的检查单 + metadata/privacy/design/subscription/entitlements 规则，每条带指南编号与真实案例）+ 中国区本土化快检 |
 | 被拒恢复 | 拒信条款号定位规则、Resolution Center 回复模板、申诉决策 |
 | 上线运营 | 关键词研究（免费数据栈）、评分弹窗策略、评论管理、编辑精选自荐、In-App Events、A/B 测试 |
+
+## 官方文档全量索引
+
+我们把 **App Store Connect 官方帮助全站（263 页）逐页抓取并建了索引**（`references/official/sitemap.md`），配合高频官方页速查（`references/official/index.md`）——skill 里的尺寸/字数等硬规格都能溯源到官方页面，而不是凭模型记忆作答。索引带 `scripts/refresh-sitemap.sh`，官方文档更新时一条命令重抓。
+
+三个知识体系各标信任等级：ASC Help（官方，操作类唯一标准）→ App Review Guidelines（官方，条款唯一出处）→ preflight 拒审规则库（第三方实战线索，MIT 引入）。冲突时官方优先。
 
 ## 安装
 
