@@ -1,6 +1,8 @@
-# asc CLI 实战手册（App-Store-Connect-CLI，`brew install asc`）
+# asc CLI 手册（App-Store-Connect-CLI，`brew install asc`）
 
 > 元数据/TestFlight/截图/提审/定价的命令行自动化。认证：`asc auth login` 或 env `ASC_KEY_ID`/`ASC_ISSUER_ID`/`ASC_PRIVATE_KEY_PATH`（与 xcodebuild 直传同一把 .p8）。拿不准用 `asc auth doctor`。
+>
+> **信任等级**：以下命令模式引自官方 CLI 文档与其配套 skills 仓库，**未逐条实测**（本地实测过的链路是 xcodebuild 直传）。工具迭代快，首次使用前先 `asc <命令> --help` 对照，跑通后可把差异回改到本文件。
 
 ## 全局规范
 

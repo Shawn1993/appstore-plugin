@@ -27,8 +27,10 @@
 - 本地包必须经 **WKURLSchemeHandler 自定义 scheme** 提供：file:// 直载时 H5 的 fetch 本地 JSON 会被同源策略拦死
 - 自定义 scheme 页面发外部请求带 `Origin: <scheme>://<host>`（**实测不是 null**）——API 服务端 CORS 要按 scheme 前缀放行，否则本地包模式下所有接口调用被浏览器拦
 - 提审前断网启动验证：App 功能应完整（审核员网络环境不可控）
+- 开关切到提审模式后，**自己真机测试也会走本地包**——属预期，别误判为线上故障；同一版本号没法让用户走远程、审核员走本地，测试与提审要错峰
 
 ## 模拟器验证技巧
 
 - 沙盒 App 的 UserDefaults 用 `simctl spawn defaults` 写不进（Domain not found）：卸载重装重置，或直写容器 plist（`simctl get_app_container <udid> <bundle> data` + PlistBuddy）
 - `simctl launch --console-pty` 启动的 app 生命周期绑在控制台进程上，kill 控制台连带杀 app——截图前别杀
+- 多机型布局回归：同时 boot 小屏 iPhone/大屏 iPhone/iPad mini/iPad Pro 各一台，循环 install+launch+screenshot 批量对比，一轮覆盖绝大多数布局炸点（老模板在 iPad 上的弹窗/横屏/启动屏问题就是这么扫出来的）

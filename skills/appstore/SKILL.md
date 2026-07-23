@@ -92,7 +92,9 @@ xcodebuild -exportArchive -archivePath build/<App>.xcarchive \
 **版本页**：截图 → 文案 → 版权（与 ICP 备案主体一致）→ 构建版本选最新 → 审核信息（无登录必须取消「需要登录」勾选 + 备注模板见 assets/metadata-template.md）→ 发布选项（有服务端开关选手动）。
 **提交**：「添加以供审核」→ 出口合规「是→仅豁免加密(HTTPS)」→ 提交。周期 1-3 天。
 
-## 4. 审计（提审前必跑；被拒也走这）
+## 4. 审计（跑两遍；被拒也走这）
+
+**时机**：代码级规则（隐私清单、entitlements、4.2 信号）在**第一次 archive 之前**跑——审计发现的问题几乎都要改代码出新构建，放在流程末尾等于白打一个包；元数据/截图类快检在点提交前再过一遍。
 
 **规则库审计**（规则内置于本 skill 的 `references/preflight/`，MIT 引自 app-store-preflight-skills，见其 ATTRIBUTION.md）：先读 `references/preflight/guidelines/by-app-type/all_apps.md` 再叠 app 类型清单（订阅/UGC/儿童/AI/游戏…），逐条过 `references/preflight/rules/{metadata,privacy,design,subscription,entitlements}/`（每条带指南编号+检测法+真实拒审案例），产出 Rejections/Warnings/Passed 三段报告，可修的修完重扫。**被拒**：拿拒信条款号在 rules/ 里 grep 定位对策；回复审核团队时用 rules/metadata/review_notes_template.md。
 
@@ -121,6 +123,8 @@ xcodebuild -exportArchive -archivePath build/<App>.xcarchive \
 - ⚠️ **无登录 App**：审核信息「需要登录」默认勾着，必须取消；勾着+空账号密码必打回
 - ⚠️ **出口合规别答"无加密"**：用了 HTTPS 就属于"豁免的加密"（正确选项见 §3）；Info.plist 加 `ITSAppUsesNonExemptEncryption = NO` 可免每次提交弹这一问
 - ⚠️ **截图必填档位以报错为准**：ASC 界面常显示多余的可选 tab（如 Apple Watch），只有「无法添加以供审核」错误里点名的档位才必须补
+- ⚠️ **仓库里有 ≠ 包里有**：关键资源（隐私清单、内置 H5 包、字体）可能躺在目录里却没进 target——提审前直接 `ls` archive 的 `.app` 内部验证实物存在（实战案例：PrivacyInfo.xcprivacy 在仓库躺了几个版本，pbxproj 零引用，包里一直没有）
+- ⚠️ **构建号便宜，多传备用**：同一版本可上传多个 build；审核中发现新问题就修好传下一个号备着——被拒时版本页直接换 build 重提，远快于撤回修改。审核中（In Review）截图/元数据/构建都锁定，撤回会丢排队位置，非致命问题等结果再说
 - ⚠️ **拒审类规则不在这里重复维护**：中国区境外 AI 敏感词、隐私清单（PrivacyInfo.xcprivacy）、订阅元数据双链接等均以 `references/preflight/rules/` 为唯一出处——§4 审计会逐条过，别凭记忆答，以规则文件为准
 
 ## 护栏
