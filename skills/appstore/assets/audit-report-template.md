@@ -3,6 +3,12 @@
 > 审计时间：{日期}　构建：{版本 (build N)}　规则集：preflight all_apps + {app 类型清单} + 中国区快检
 > 总体判定：🔴 有必拒项，勿提交 / 🟡 有风险项，可提交但建议先修 / 🟢 可提交
 
+## 报告写作三规则（生成时必须遵守）
+
+1. **依据必须可溯源**：每条问题的条款/规则标签都是超链接——苹果条款号 → `developer.apple.com/app-store/review/guidelines/#锚点`；隐私清单/敏感接口 → 苹果 bundleresources 文档；规则库与经验类 → 本 skill 公开仓库对应文件的 GitHub URL；中国区法规 → guides/regions.md 仓库链接
+2. **说人话**：标题写"发生了什么后果"而不是术语（"隐私申报文件没打进包里"，不是"PrivacyInfo.xcprivacy 缺失"）；正文先讲影响再讲机制
+3. **术语带解释**：保留的专业词必须可即时看懂——Artifact 网页版用 hover tooltip（`.t[data-tip]` 模式，tabindex=0 支持点按），md 归档版在术语后括号一句白话
+
 ## ❌ Rejections —— 必拒项（{N} 条，修完才能提）
 
 | # | 条款 | 问题 | 证据 | 修复动作 |

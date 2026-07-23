@@ -1,0 +1,139 @@
+<title>{APP 名} · 提审审计报告</title>
+<style>
+:root{
+  --paper:#f7f4ee;--wash:#efe9df;--card:#fffdf9;--ink:#282219;--ink-2:#7a7060;--line:#e3dbcc;
+  --crit:#a8332a;--crit-bg:#f7e9e7;--warn:#8a6116;--warn-bg:#f5edda;--ok:#3d6b4a;--ok-bg:#e9f0e9;
+  --seal:#8c2f26;--chip:#ece5d7;--link:#1f5d8a;--tipbg:#2c2620;--tipfg:#f3eee4;
+}
+@media (prefers-color-scheme: dark){:root{
+  --paper:#171410;--wash:#1f1b15;--card:#252019;--ink:#ebe4d6;--ink-2:#9c9182;--line:#3b342a;
+  --crit:#e07a6e;--crit-bg:#3b2523;--warn:#d8a648;--warn-bg:#372d1a;--ok:#84bd92;--ok-bg:#20301f;
+  --seal:#c05a4e;--chip:#322c22;--link:#7fb4d8;--tipbg:#0e0c09;--tipfg:#efe9dc;
+}}
+:root[data-theme="dark"]{
+  --paper:#171410;--wash:#1f1b15;--card:#252019;--ink:#ebe4d6;--ink-2:#9c9182;--line:#3b342a;
+  --crit:#e07a6e;--crit-bg:#3b2523;--warn:#d8a648;--warn-bg:#372d1a;--ok:#84bd92;--ok-bg:#20301f;
+  --seal:#c05a4e;--chip:#322c22;--link:#7fb4d8;--tipbg:#0e0c09;--tipfg:#efe9dc;
+}
+:root[data-theme="light"]{
+  --paper:#f7f4ee;--wash:#efe9df;--card:#fffdf9;--ink:#282219;--ink-2:#7a7060;--line:#e3dbcc;
+  --crit:#a8332a;--crit-bg:#f7e9e7;--warn:#8a6116;--warn-bg:#f5edda;--ok:#3d6b4a;--ok-bg:#e9f0e9;
+  --seal:#8c2f26;--chip:#ece5d7;--link:#1f5d8a;--tipbg:#2c2620;--tipfg:#f3eee4;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:15px/1.75 -apple-system,"PingFang SC","Noto Sans SC",sans-serif;margin:0;padding:40px 16px 72px}
+.wrap{max-width:840px;margin:0 auto}
+header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:24px}
+h1{font:600 27px/1.35 "Songti SC","STSong","Noto Serif SC",serif;margin:0 0 8px;letter-spacing:.02em;text-wrap:balance}
+.meta{color:var(--ink-2);font-size:13px;font-variant-numeric:tabular-nums}
+.meta a{color:inherit}
+.seal{width:54px;height:54px;background:var(--seal);color:#f5efe2;border-radius:10px;display:flex;align-items:center;justify-content:center;font:700 16px/1.2 "Songti SC",serif;flex:none;letter-spacing:2px;box-shadow:0 6px 18px -8px color-mix(in srgb,var(--seal) 60%,transparent)}
+/* 判定灯 */
+.verdict{display:flex;gap:16px;align-items:flex-start;background:var(--warn-bg);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);border-radius:16px;padding:18px 22px;margin-bottom:40px}
+.lamp{width:13px;height:13px;margin-top:6px;border-radius:50%;background:var(--warn);flex:none;box-shadow:0 0 0 5px color-mix(in srgb,var(--warn) 16%,transparent)}
+.verdict b{font-size:16px;line-height:1.5}
+.verdict p{margin:4px 0 0;color:var(--ink-2);font-size:13.5px}
+/* 分区 */
+section{margin-bottom:40px}
+h2{font:600 14px/1 -apple-system,"PingFang SC",sans-serif;letter-spacing:.14em;color:var(--ink-2);margin:0 0 14px;text-transform:uppercase;display:flex;align-items:baseline;gap:10px}
+h2 em{font-style:normal;font:600 17px/1 "Songti SC",serif;color:var(--ink);letter-spacing:.04em}
+h2 .n{font-variant-numeric:tabular-nums;font-weight:500}
+/* 双层卡 */
+.shell{background:var(--wash);border:1px solid var(--line);border-radius:18px;padding:7px;margin-bottom:14px}
+.core{background:var(--card);border-radius:12px;padding:16px 20px;border-left:4px solid var(--line)}
+.shell.crit .core{border-left-color:var(--crit)}
+.shell.warn .core{border-left-color:var(--warn)}
+.row1{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+/* 依据链接 chip */
+.src{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--chip);color:var(--ink-2);text-decoration:none;transition:all .25s cubic-bezier(.32,.72,0,1)}
+.src::after{content:"↗";font-size:10px;opacity:.55}
+.src:hover{color:var(--link);background:color-mix(in srgb,var(--link) 12%,transparent)}
+.state{font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:99px}
+.state.fixed{background:var(--ok-bg);color:var(--ok)}
+.state.pend{background:var(--warn-bg);color:var(--warn)}
+.core b.title{font-size:15.5px;display:block;margin-bottom:4px}
+.core .d{color:color-mix(in srgb,var(--ink) 82%,var(--ink-2));font-size:13.8px;margin:0}
+.core .fix{font-size:13.5px;margin:12px 0 0;padding-top:10px;border-top:1px dashed var(--line)}
+.core .fix::before{content:"处置";color:var(--ok);font-weight:700;font-size:11px;letter-spacing:.1em;margin-right:8px}
+.ev{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--chip);padding:1px 6px;border-radius:5px;word-break:break-all}
+/* 术语 tooltip（hover / 点按均可） */
+.t{border-bottom:1px dotted color-mix(in srgb,var(--ink-2) 70%,transparent);cursor:help;position:relative;outline:none}
+.t::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%) translateY(4px);width:max-content;max-width:280px;background:var(--tipbg);color:var(--tipfg);font-size:12.5px;line-height:1.6;padding:9px 12px;border-radius:9px;opacity:0;pointer-events:none;transition:all .3s cubic-bezier(.32,.72,0,1);z-index:10;text-align:left;white-space:normal;box-shadow:0 10px 30px -10px rgba(0,0,0,.4)}
+.t::before{content:"";position:absolute;left:50%;bottom:calc(100% + 2px);transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--tipbg);opacity:0;transition:opacity .3s;z-index:10}
+.t:hover::after,.t:focus::after,.t:hover::before,.t:focus::before{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (prefers-reduced-motion: reduce){.t::after,.t::before,.src{transition:none}}
+/* 已核 */
+.passgrid{display:flex;flex-wrap:wrap;gap:8px}
+.pass{background:var(--ok-bg);color:var(--ok);font-size:12.5px;padding:6px 13px;border-radius:99px;text-decoration:none;transition:filter .2s}
+a.pass:hover{filter:brightness(.92)}
+/* 下一步 */
+.next{background:var(--wash);border:1px solid var(--line);border-radius:18px;padding:8px}
+.next-core{background:var(--card);border-radius:12px;padding:8px 22px 16px}
+.next ol{margin:10px 0 0;padding-left:22px}
+.next li{margin:9px 0;font-size:14px}
+.next li small{color:var(--ink-2)}
+footer{margin-top:44px;color:var(--ink-2);font-size:12px;text-align:center}
+footer a{color:inherit}
+</style>
+<!--
+  审计报告 HTML 模板（appstore skill）
+  用法：保留全部 <style>，按下方骨架填充真实内容后发布为 Artifact。
+  三规则：①依据 chip 全部超链接（苹果条款锚点 / bundleresources 文档 / skill 仓库规则文件）
+         ②标题写后果不写术语 ③术语用 <span class="t" tabindex="0" data-tip="人话解释">术语</span>
+  判定灯三态：--warn 换 --crit（🔴 勿提交）或 --ok（🟢 可提交），verdict 的背景/边框/lamp 同步换色
+-->
+<div class="wrap">
+<header>
+  <div>
+    <h1>{APP 名} · 提审审计报告</h1>
+    <div class="meta">{日期} · 版本 <span class="ev">{X.Y.Z}</span>（{构建状态}）· 依据 <a href="https://developer.apple.com/app-store/review/guidelines/" target="_blank">苹果审核指南</a> + <a href="https://github.com/Shawn1993/appstore-plugin/tree/main/skills/appstore/references/preflight" target="_blank">拒审规则库</a>{+ 其他规则集链接}</div>
+  </div>
+  <div class="seal">审计</div>
+</header>
+
+<div class="verdict">
+  <div class="lamp"></div>
+  <div>
+    <b>{🔴/🟡/🟢} {一句话总判定，说人话讲后果}</b>
+    <p>{一句补充：当下能做什么/不能做什么}</p>
+  </div>
+</div>
+
+<section>
+<h2><em>必拒项</em><span class="n">{N} 条</span></h2>
+<div class="shell crit"><div class="core">
+  <div class="row1">
+    <a class="src" href="{条款或文档 URL}" target="_blank">{依据名}</a>
+    <a class="src" href="{skill 仓库规则文件 URL}" target="_blank">规则原文</a>
+    <span class="state fixed">已修复 · {build N}</span><!-- 或 <span class="state pend">{处置时机}</span> -->
+  </div>
+  <b class="title">{标题：发生了什么后果，不写术语}</b>
+  <p class="d">{先影响后机制；术语示例：<span class="t" tabindex="0" data-tip="这里写一句大白话解释">术语</span>}</p>
+  <p class="fix">{已做/待做的具体处置，含验证证据}</p>
+</div></div>
+</section>
+
+<section>
+<h2><em>风险项</em><span class="n">{N} 条</span></h2>
+<!-- 结构同上，shell 用 class="shell warn" -->
+</section>
+
+<section>
+<h2><em>已核通过</em><span class="n">{N} 条</span></h2>
+<div class="passgrid">
+  <a class="pass" href="{条款锚点}" target="_blank">{条款号 一句名目}</a>
+  <span class="pass">{无外链的名目}</span>
+</div>
+</section>
+
+<section>
+<h2><em>下一步</em></h2>
+<div class="next"><div class="next-core">
+  <ol>
+    <li>{最高优先级动作} <small>{补充说明}</small></li>
+  </ol>
+</div></div>
+</section>
+
+<footer>appstore skill 审计报告 · 依据均可点击溯源 · 规则库引自 <a href="https://github.com/truongduy2611/app-store-preflight-skills" target="_blank">app-store-preflight-skills</a>（MIT）</footer>
+</div>
