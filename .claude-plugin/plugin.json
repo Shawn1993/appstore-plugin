@@ -1,7 +1,7 @@
 {
   "name": "appstore",
   "description": "App Store 全生命周期管理：上架物料生产、构建直传、ASC 陪填、拒审规则审计、被拒恢复、TestFlight、ASO 与上线后运营。含中国区专项（ICP/广告法/提审开关）。",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": {
     "name": "Shawn1993"
   }

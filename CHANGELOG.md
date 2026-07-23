@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.2.0 (2026-07-23)
+
+跨 agent 通用版：
+
+- **万能安装器 `install.sh`**：一行命令自动装进本机所有支持 Agent Skills 标准的 agent（Claude Code / Codex / Gemini CLI / OpenClaw / Hermes / Pi / Antigravity），更新即重跑
+- **跨 agent 实测**：OpenClaw（skills list ✓ ready）与 Codex（识别并可调用）验证通过
+- **去 Claude 专属化**：结构化提问/网页抓取/报告交付的措辞改为 agent 无关（各 agent 用自身等价能力，无能力时有降级路径）
+- **`.codex-plugin/plugin.json`**：Codex 插件清单
+- README 安装矩阵覆盖各 agent + 不支持 skills 的 agent 的并入方案
+
 ## v1.1.0 (2026-07-23)
 
 首个实战验证版。相对 v1.0.0 的主要演进：

@@ -18,19 +18,32 @@ App Store 全生命周期管理的 Claude Code plugin。从「只给一个网站
 
 ## 安装
 
-**方式一：作为 plugin（推荐）**
-
-```
-/plugin marketplace add Shawn1993/appstore-plugin
-/plugin install appstore@appstore-plugin
-```
-
-**方式二：直接当 skill 用**
+**万能一行命令**（自动装进本机所有支持 Agent Skills 标准的 agent —— Claude Code / Codex / Gemini CLI / OpenClaw / Hermes…）：
 
 ```bash
-git clone https://github.com/Shawn1993/appstore-plugin
-cp -R appstore-plugin/skills/appstore ~/.claude/skills/
+curl -fsSL https://raw.githubusercontent.com/Shawn1993/appstore-plugin/main/install.sh | sh
 ```
+
+更新也是重跑这一条。装到自定义位置：`SKILLS_DIR=<目录> sh install.sh`
+
+<details>
+<summary>各 agent 手动安装</summary>
+
+本 skill 遵循开放的 Agent Skills 标准（SKILL.md + references/），装进任何读取 skills 目录的 agent 均可用：
+
+| Agent | 方式 |
+|---|---|
+| Claude Code（plugin 方式） | `/plugin marketplace add Shawn1993/appstore-plugin` → `/plugin install appstore@appstore-plugin` |
+| Claude Code（skill 方式） | 复制 `skills/appstore` → `~/.claude/skills/` |
+| Codex | 复制 `skills/appstore` → `~/.codex/skills/` |
+| Gemini CLI | 复制 `skills/appstore` → `~/.gemini/skills/` |
+| OpenClaw | 复制 `skills/appstore` → `~/.openclaw/skills/` |
+| 其他支持 SKILL.md 的 agent | 复制 `skills/appstore` → 该 agent 的 skills 目录 |
+| 不支持 skills 的 agent | 把 `skills/appstore/SKILL.md` 内容并入其系统提示 / AGENTS.md，references/ 按路径随工程放置 |
+
+> SKILL.md 正文为中文，但任何语言的用户都可直接使用——agent 读中文知识、用用户的语言回应。中国区合规知识（ICP/广告法/提审开关）正是英文世界稀缺的部分。
+
+</details>
 
 ## 使用
 
