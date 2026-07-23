@@ -2,13 +2,14 @@
 
 > 元数据/TestFlight/截图/提审/定价的命令行自动化。认证：`asc auth login` 或 env `ASC_KEY_ID`/`ASC_ISSUER_ID`/`ASC_PRIVATE_KEY_PATH`（与 xcodebuild 直传同一把 .p8）。拿不准用 `asc auth doctor`。
 >
-> **信任等级**：以下命令模式引自官方 CLI 文档与其配套 skills 仓库，**未逐条实测**（本地实测过的链路是 xcodebuild 直传）。工具迭代快，首次使用前先 `asc <命令> --help` 对照，跑通后可把差异回改到本文件。
+> **信任等级**：已实测通过——`asc auth doctor`、`asc search`、`asc review status`（v3.1.1）；其余命令引自官方文档未逐条实测，首次使用先 `asc <命令> --help` 对照，跑通后回改本文件。
 
 ## 全局规范
 
 - 输出 TTY 感知：终端 table、管道里 minified JSON；`--pretty` 只对 JSON 生效
 - 破坏性操作都要 `--confirm`；全量列表用 `--paginate`
-- 命令发现：`asc search "自然语言"` / `asc schema --pretty "GET /v1/apps"` / `asc capabilities --area release`
+- 命令发现：`asc search "自然语言"`（实测好用，命令名拿不准先搜） / `asc schema --pretty "GET /v1/apps"` / `asc capabilities --area release`
+- **.p8 权限必须 600**：宽了直接报 `private key file is too permissive` 拒跑（实测），`chmod 600 <key>.p8`
 - ID 解析：别 `head -1` 猜，`--output table` 人工确认或用确定性 bundle-id 查：`asc apps list --bundle-id com.x.y`
 - **zero/one/many 范式**：list 结果 0 个→create，1 个→复用，>1 个→停下要显式 ID（v2 version 资源没有 delete，误建清不掉）
 
@@ -61,6 +62,7 @@ asc screenshots upload --version-localization "LOC_ID" --path "./final" --device
 ## 提审与发布
 
 ```bash
+asc review status --app "APP_ID"               # 一眼看审核状态与下一步（实测可用，查"开审没/被拒没"就用它）
 asc validate --app "APP_ID" --version "1.2.3" --platform IOS --strict --output table  # 提审就绪门禁
 asc review doctor --app "APP_ID" --version "1.2.3"             # 阻塞项有序解释
 asc release stage --app "APP_ID" --version "1.2.3" --build "BUILD_ID" --metadata-dir "./metadata/version/1.2.3" --confirm
