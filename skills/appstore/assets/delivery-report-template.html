@@ -1,0 +1,219 @@
+<title>{APP 名} · App Store 提审交付包</title>
+<style>
+:root{
+  --paper:#f7f4ee;--wash:#efe9df;--card:#fffdf9;--ink:#282219;--ink-2:#7a7060;--line:#e3dbcc;
+  --crit:#a8332a;--crit-bg:#f7e9e7;--warn:#8a6116;--warn-bg:#f5edda;--ok:#3d6b4a;--ok-bg:#e9f0e9;
+  --seal:#8c2f26;--chip:#ece5d7;--link:#1f5d8a;--tipbg:#2c2620;--tipfg:#f3eee4;
+}
+@media (prefers-color-scheme: dark){:root{
+  --paper:#171410;--wash:#1f1b15;--card:#252019;--ink:#ebe4d6;--ink-2:#9c9182;--line:#3b342a;
+  --crit:#e07a6e;--crit-bg:#3b2523;--warn:#d8a648;--warn-bg:#372d1a;--ok:#84bd92;--ok-bg:#20301f;
+  --seal:#c05a4e;--chip:#322c22;--link:#7fb4d8;--tipbg:#0e0c09;--tipfg:#efe9dc;
+}}
+:root[data-theme="dark"]{
+  --paper:#171410;--wash:#1f1b15;--card:#252019;--ink:#ebe4d6;--ink-2:#9c9182;--line:#3b342a;
+  --crit:#e07a6e;--crit-bg:#3b2523;--warn:#d8a648;--warn-bg:#372d1a;--ok:#84bd92;--ok-bg:#20301f;
+  --seal:#c05a4e;--chip:#322c22;--link:#7fb4d8;--tipbg:#0e0c09;--tipfg:#efe9dc;
+}
+:root[data-theme="light"]{
+  --paper:#f7f4ee;--wash:#efe9df;--card:#fffdf9;--ink:#282219;--ink-2:#7a7060;--line:#e3dbcc;
+  --crit:#a8332a;--crit-bg:#f7e9e7;--warn:#8a6116;--warn-bg:#f5edda;--ok:#3d6b4a;--ok-bg:#e9f0e9;
+  --seal:#8c2f26;--chip:#ece5d7;--link:#1f5d8a;--tipbg:#2c2620;--tipfg:#f3eee4;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:15px/1.75 -apple-system,"PingFang SC","Noto Sans SC",sans-serif;margin:0;padding:40px 16px 72px}
+.wrap{max-width:900px;margin:0 auto}
+header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px}
+h1{font:600 27px/1.35 "Songti SC","STSong","Noto Serif SC",serif;margin:0 0 8px;letter-spacing:.02em;text-wrap:balance}
+.meta{color:var(--ink-2);font-size:13px;font-variant-numeric:tabular-nums}
+.meta a{color:inherit}
+.seal{width:54px;height:54px;background:var(--seal);color:#f5efe2;border-radius:10px;display:flex;align-items:center;justify-content:center;font:700 16px/1.2 "Songti SC",serif;flex:none;letter-spacing:2px;box-shadow:0 6px 18px -8px color-mix(in srgb,var(--seal) 60%,transparent)}
+/* Tab 导航（悬浮胶囊，随滚动吸顶） */
+nav{position:sticky;top:12px;z-index:20;display:flex;gap:4px;background:color-mix(in srgb,var(--wash) 88%,transparent);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:99px;padding:5px;width:max-content;max-width:100%;overflow-x:auto;margin:0 auto 36px;box-shadow:0 12px 32px -18px rgba(0,0,0,.25)}
+nav button{font:600 13.5px/1 -apple-system,"PingFang SC",sans-serif;color:var(--ink-2);background:none;border:0;border-radius:99px;padding:9px 17px;cursor:pointer;white-space:nowrap;transition:all .35s cubic-bezier(.32,.72,0,1)}
+nav button .n{font-size:11px;opacity:.7;margin-left:4px;font-variant-numeric:tabular-nums}
+nav button.on{background:var(--card);color:var(--ink);box-shadow:0 4px 14px -6px rgba(0,0,0,.28)}
+nav button:not(.on):hover{color:var(--ink)}
+main>div{display:none}
+main>div.on{display:block;animation:fadein .45s cubic-bezier(.32,.72,0,1)}
+@keyframes fadein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+/* 判定灯 */
+.verdict{display:flex;gap:16px;align-items:flex-start;background:var(--warn-bg);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);border-radius:16px;padding:18px 22px;margin-bottom:28px}
+.lamp{width:13px;height:13px;margin-top:6px;border-radius:50%;background:var(--warn);flex:none;box-shadow:0 0 0 5px color-mix(in srgb,var(--warn) 16%,transparent)}
+.verdict b{font-size:16px;line-height:1.5}
+.verdict p{margin:4px 0 0;color:var(--ink-2);font-size:13.5px}
+section{margin-bottom:36px}
+h2{font:600 14px/1 -apple-system,"PingFang SC",sans-serif;letter-spacing:.14em;color:var(--ink-2);margin:0 0 14px;text-transform:uppercase;display:flex;align-items:baseline;gap:10px}
+h2 em{font-style:normal;font:600 17px/1 "Songti SC",serif;color:var(--ink);letter-spacing:.04em}
+h2 .n{font-variant-numeric:tabular-nums;font-weight:500}
+/* 双层卡 */
+.shell{background:var(--wash);border:1px solid var(--line);border-radius:18px;padding:7px;margin-bottom:14px}
+.core{background:var(--card);border-radius:12px;padding:16px 20px;border-left:4px solid var(--line)}
+.shell.crit .core{border-left-color:var(--crit)}
+.shell.warn .core{border-left-color:var(--warn)}
+.shell.ok .core{border-left-color:var(--ok)}
+.row1{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.src{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--chip);color:var(--ink-2);text-decoration:none;transition:all .25s cubic-bezier(.32,.72,0,1)}
+.src::after{content:"↗";font-size:10px;opacity:.55}
+.src:hover{color:var(--link);background:color-mix(in srgb,var(--link) 12%,transparent)}
+.state{font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:99px}
+.state.fixed{background:var(--ok-bg);color:var(--ok)}
+.state.pend{background:var(--warn-bg);color:var(--warn)}
+.core b.title{font-size:15.5px;display:block;margin-bottom:4px}
+.core .d{color:color-mix(in srgb,var(--ink) 82%,var(--ink-2));font-size:13.8px;margin:0}
+.core .fix{font-size:13.5px;margin:12px 0 0;padding-top:10px;border-top:1px dashed var(--line)}
+.core .fix::before{content:"处置";color:var(--ok);font-weight:700;font-size:11px;letter-spacing:.1em;margin-right:8px}
+.ev{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--chip);padding:1px 6px;border-radius:5px;word-break:break-all}
+/* 术语 tooltip */
+.t{border-bottom:1px dotted color-mix(in srgb,var(--ink-2) 70%,transparent);cursor:help;position:relative;outline:none}
+.t::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%) translateY(4px);width:max-content;max-width:280px;background:var(--tipbg);color:var(--tipfg);font-size:12.5px;line-height:1.6;padding:9px 12px;border-radius:9px;opacity:0;pointer-events:none;transition:all .3s cubic-bezier(.32,.72,0,1);z-index:10;text-align:left;white-space:normal;box-shadow:0 10px 30px -10px rgba(0,0,0,.4)}
+.t::before{content:"";position:absolute;left:50%;bottom:calc(100% + 2px);transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--tipbg);opacity:0;transition:opacity .3s;z-index:10}
+.t:hover::after,.t:focus::after,.t:hover::before,.t:focus::before{opacity:1;transform:translateX(-50%) translateY(0)}
+/* 商店物料：字段卡（一键复制） */
+.field{background:var(--wash);border:1px solid var(--line);border-radius:18px;padding:7px;margin-bottom:14px}
+.field-core{background:var(--card);border-radius:12px;padding:14px 18px}
+.field-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.field-head b{font-size:13.5px}
+.field-head .lim{font-size:11.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.field-head .lim.over{color:var(--crit);font-weight:700}
+.copy{margin-left:auto;font:600 11.5px/1 -apple-system,sans-serif;color:var(--ink-2);background:var(--chip);border:0;border-radius:99px;padding:6px 13px;cursor:pointer;transition:all .25s cubic-bezier(.32,.72,0,1)}
+.copy:hover{color:var(--link)}
+.copy.ok{background:var(--ok-bg);color:var(--ok)}
+.field pre{margin:0;font:13.5px/1.7 -apple-system,"PingFang SC",sans-serif;white-space:pre-wrap;word-break:break-word;color:var(--ink)}
+.field pre.mono{font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
+/* 截图画廊 */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.shot{background:var(--wash);border:1px solid var(--line);border-radius:14px;padding:6px}
+.shot img{width:100%;display:block;border-radius:9px}
+.shot figcaption{font-size:11.5px;color:var(--ink-2);text-align:center;padding:7px 2px 3px;font-variant-numeric:tabular-nums}
+.shot.ipad{grid-column:span 2}
+/* 已核 / 下一步 */
+.passgrid{display:flex;flex-wrap:wrap;gap:8px}
+.pass{background:var(--ok-bg);color:var(--ok);font-size:12.5px;padding:6px 13px;border-radius:99px;text-decoration:none;transition:filter .2s}
+a.pass:hover{filter:brightness(.92)}
+.next{background:var(--wash);border:1px solid var(--line);border-radius:18px;padding:8px}
+.next-core{background:var(--card);border-radius:12px;padding:8px 22px 16px}
+.next ol{margin:10px 0 0;padding-left:22px}
+.next li{margin:9px 0;font-size:14px}
+.next li small{color:var(--ink-2)}
+/* 进度条（总览 tab 的流程位置） */
+.steps{display:flex;gap:0;margin-bottom:28px;overflow-x:auto}
+.step{flex:1;min-width:86px;text-align:center;font-size:12px;color:var(--ink-2);position:relative;padding-top:20px}
+.step::before{content:"";width:11px;height:11px;border-radius:50%;background:var(--line);position:absolute;top:2px;left:50%;transform:translateX(-50%)}
+.step::after{content:"";height:2px;background:var(--line);position:absolute;top:6.5px;left:calc(50% + 8px);right:calc(-50% + 8px)}
+.step:last-child::after{display:none}
+.step.done{color:var(--ok)}.step.done::before{background:var(--ok)}
+.step.now{color:var(--ink);font-weight:700}.step.now::before{background:var(--warn);box-shadow:0 0 0 4px color-mix(in srgb,var(--warn) 20%,transparent)}
+footer{margin-top:44px;color:var(--ink-2);font-size:12px;text-align:center}
+footer a{color:inherit}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:600px){.shot.ipad{grid-column:span 1}}
+</style>
+<!--
+  提审交付包模板（appstore skill）— 一页承载全部产出：商店物料 + 截图 + 审计 + 待办
+  用法：保留全部 <style> 与 <script>，填充占位符后写到项目 .appstore/delivery-report.html
+  规则：①审计条目沿用审计报告三规则（依据超链接/标题说人话/术语 tooltip）
+       ②物料 tab 的每个字段 = ASC 后台一个输入框，字符上限标在 lim（超限加 class="over"）
+       ③截图 img 用相对路径指向项目内实际文件，figcaption 标档位与尺寸
+       ④tab 徽标数字：物料 = 字段数，截图 = 张数，审计 = 未解决问题数（0 则不显示）
+       ⑤总览 steps 按实际进度标 done/now
+-->
+<div class="wrap">
+<header>
+  <div>
+    <h1>{APP 名} · App Store 提审交付包</h1>
+    <div class="meta">{日期} · 版本 <span class="ev">{X.Y.Z} (build {N})</span> · {Apple ID 等关键标识} · 由 <a href="https://github.com/Shawn1993/ship-appstore" target="_blank">appstore skill</a> 生成</div>
+  </div>
+  <div class="seal">交付</div>
+</header>
+
+<nav>
+  <button class="on" data-tab="overview">总览</button>
+  <button data-tab="meta">商店物料<span class="n">{N}</span></button>
+  <button data-tab="shots">截图<span class="n">{N}</span></button>
+  <button data-tab="audit">审计<span class="n">{未解决数}</span></button>
+  <button data-tab="todo">待办</button>
+</nav>
+
+<main>
+<!-- ============ 总览 ============ -->
+<div class="on" data-tab="overview">
+  <div class="verdict">
+    <div class="lamp"></div>
+    <div><b>{🔴/🟡/🟢} {一句话总判定：现在处于什么状态、能不能提交}</b>
+    <p>{补充：距离可提交还差什么}</p></div>
+  </div>
+  <div class="steps">
+    <div class="step done">物料</div><div class="step done">构建上传</div><div class="step now">ASC 填写</div><div class="step">提交审核</div><div class="step">发布</div>
+  </div>
+  <section><h2><em>关键信息</em></h2>
+  <div class="shell"><div class="core">
+    <p class="d">{App 名 / bundle id / Apple ID / 类目 / 定价 / 目标市场 / ICP…… 一表带过，值用 <span class="ev">code 样式</span>}</p>
+  </div></div></section>
+</div>
+
+<!-- ============ 商店物料（每字段可复制） ============ -->
+<div data-tab="meta">
+  <section><h2><em>版本页文案</em></h2>
+  <div class="field"><div class="field-core">
+    <div class="field-head"><b>{字段名，如：副标题}</b><span class="lim">{当前字数}/{上限}</span><button class="copy">复制</button></div>
+    <pre>{字段内容，原样可粘进 ASC}</pre>
+  </div></div>
+  <!-- 名称/副标题/推广文本/描述/关键词/新功能……每字段一卡 -->
+  </section>
+  <section><h2><em>审核信息</em></h2>
+  <!-- 联系人/电话/邮箱/演示账号说明/审核备注，同上字段卡 -->
+  </section>
+</div>
+
+<!-- ============ 截图 ============ -->
+<div data-tab="shots">
+  <section><h2><em>iPhone 6.9"</em><span class="n">{N} 张 · {W}×{H}</span></h2>
+  <div class="gallery">
+    <figure class="shot"><img src="{相对路径}" alt="{一句描述}"><figcaption>{序号} · {卖点}</figcaption></figure>
+  </div></section>
+  <section><h2><em>iPad 13"</em><span class="n">{N} 张 · {W}×{H}</span></h2>
+  <div class="gallery"><figure class="shot ipad"><img src="{相对路径}" alt=""><figcaption>{…}</figcaption></figure></div></section>
+</div>
+
+<!-- ============ 审计 ============ -->
+<div data-tab="audit">
+  <section><h2><em>必拒项</em><span class="n">{N} 条</span></h2>
+  <div class="shell crit"><div class="core">
+    <div class="row1">
+      <a class="src" href="{条款 URL}" target="_blank">{依据名}</a>
+      <span class="state pend">{处置时机}</span>
+    </div>
+    <b class="title">{发生了什么后果，不写术语}</b>
+    <p class="d">{先影响后机制；术语：<span class="t" tabindex="0" data-tip="大白话解释">术语</span>}</p>
+    <p class="fix">{具体处置 + 验证证据}</p>
+  </div></div></section>
+  <section><h2><em>风险项</em><span class="n">{N} 条</span></h2><!-- shell warn --></section>
+  <section><h2><em>已核通过</em><span class="n">{N} 条</span></h2>
+  <div class="passgrid"><a class="pass" href="{条款锚点}" target="_blank">{条款号 名目}</a></div></section>
+</div>
+
+<!-- ============ 待办 ============ -->
+<div data-tab="todo">
+  <section><h2><em>下一步</em></h2>
+  <div class="next"><div class="next-core"><ol>
+    <li>{最高优先级动作} <small>{说明}</small></li>
+  </ol></div></div></section>
+</div>
+</main>
+
+<footer>appstore skill 提审交付包 · 依据均可点击溯源 · <a href="https://github.com/Shawn1993/ship-appstore" target="_blank">ship-appstore</a></footer>
+</div>
+<script>
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('main>div').forEach(p=>p.classList.toggle('on',p.dataset.tab===b.dataset.tab));
+  history.replaceState(null,'','#'+b.dataset.tab);
+}));
+const h=location.hash.slice(1);if(h){const b=document.querySelector(`nav button[data-tab="${h}"]`);b&&b.click()}
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{
+  const t=b.closest('.field-core').querySelector('pre').textContent;
+  try{await navigator.clipboard.writeText(t)}catch(e){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}
+  b.textContent='已复制';b.classList.add('ok');setTimeout(()=>{b.textContent='复制';b.classList.remove('ok')},1600)
+}));
+</script>
