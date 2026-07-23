@@ -18,15 +18,13 @@
 3. 「+」生成密钥：起名（如 `ci-key`）、**选角色**——推荐 **App Manager**（能传包/改元数据/提审，权限够用且不给财务面）；只读需求选 Developer；要动协议税务才用 Admin
 4. 下载 `.p8` 文件——**只有这一次下载机会**，错过只能作废重建；同页记下 **Key ID**（10 位）和页面顶部的 **Issuer ID**（UUID，全团队共用一个）
 
-**存放规范**：
+**工作副本**：放 `~/.appstoreconnect/private_keys/`（xcodebuild 和 asc CLI 的默认读取处）。文件权限由本 skill 在每次使用前自动检测修复（非 600 会导致 asc 拒跑），用户不用管。
 
-```bash
-mkdir -p ~/.appstoreconnect/private_keys
-mv ~/Downloads/AuthKey_XXXXXXXXXX.p8 ~/.appstoreconnect/private_keys/
-chmod 600 ~/.appstoreconnect/private_keys/AuthKey_XXXXXXXXXX.p8   # 权限宽了 asc 会拒跑
-```
-
-xcodebuild 和 asc CLI 都默认从这个目录找 key。**三件套（.p8 + Key ID + Issuer ID）妥善备份**——.p8 等同于团队操作权限，泄漏了立刻在 ASC 撤销；换机器只需拷这一个目录。
+**备份（因为只有一次下载机会）**：
+- 首选：**密码管理器的附件/安全笔记**（1Password、Bitwarden 等）——加密、跨设备、随账号恢复，把 .p8 文件连同 Key ID / Issuer ID 三件套存成一条记录
+- 不推荐钥匙串：macOS 钥匙串存文件形态的 key 不方便，工具也不会从钥匙串读取，还只在苹果生态内
+- 禁止：聊天记录传输、网盘明文、git 仓库（.p8 等同团队操作权限）
+- 心态：**丢了不是灾难**（ASC 里作废重建一把新 key 只要几分钟），**泄漏才是**——发现泄漏立刻去「用户和访问 → 集成」撤销该 key
 
 **验证可用**：`brew install asc && ASC_KEY_ID=<KeyID> ASC_ISSUER_ID=<IssuerID> ASC_PRIVATE_KEY_PATH=~/.appstoreconnect/private_keys/AuthKey_<KeyID>.p8 asc auth doctor`
 
