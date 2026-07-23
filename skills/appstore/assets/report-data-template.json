@@ -1,0 +1,92 @@
+{
+  "app": {
+    "name": "{App 名}",
+    "icon_char": "{图标单字}",
+    "apple_id": "{数字 ID}",
+    "bundle": "{bundle id}",
+    "version": "{X.Y}",
+    "build": "{N}"
+  },
+  "meta": "{日期} · 由 <a href='…'>appstore skill</a> 生成 · {说明}",
+  "status": {
+    "badge": "{顶栏状态 · 日期}",
+    "tone": "warn|ok|crit",
+    "headline": "{一句话状态}",
+    "detail": "{补充}",
+    "steps": [
+      {
+        "label": "物料",
+        "state": "done|now|(空)"
+      }
+    ]
+  },
+  "key_info": [
+    [
+      "{左列标签}",
+      "{右列值，可含 <span class='ev'>code</span> 与 <span class='t' tabindex='0' data-tip='人话'>术语</span>}"
+    ]
+  ],
+  "screenshots": [
+    {
+      "subtitle": "{档位 · N 张 · WxH}",
+      "pad": "true=iPad 宽卡(可省)",
+      "items": [
+        {
+          "src": "{相对路径}",
+          "caption": "{序号 · 卖点}"
+        }
+      ]
+    }
+  ],
+  "shots_warning": "（可省）截图问题卡，结构同 audit.issues[i]",
+  "version_fields": [
+    {
+      "label": "{字段名}",
+      "value": "{内容}",
+      "limit": "（可省）字符上限数字，计数由壳现算",
+      "note": "（可省）label 旁小字",
+      "mono": "（可省）true=等宽",
+      "copy": "（可省）false=不出复制按钮"
+    }
+  ],
+  "review_info": "（可省）审核信息字段数组，结构同 version_fields",
+  "release_info": "（可省）发布设置字段数组",
+  "appinfo_fields": "App 信息页字段数组",
+  "appinfo_issue": "（可省）问题卡",
+  "privacy_fields": "隐私页字段数组",
+  "pricing_fields": "定价页字段数组",
+  "audit": {
+    "sub": "（可省）副标题",
+    "status": {
+      "tone": "ok|warn|crit",
+      "headline": "{总判定}"
+    },
+    "next": [
+      {
+        "title": "{动作}",
+        "note": "{说明}"
+      }
+    ],
+    "issues": [
+      {
+        "severity": "crit|warn",
+        "title": "{说人话的后果}",
+        "desc": "{影响+机制，术语带 data-tip}",
+        "source": {
+          "label": "{依据名}",
+          "url": "{条款/文档 URL}"
+        },
+        "state": {
+          "type": "fixed|pend",
+          "text": "{处置状态}"
+        }
+      }
+    ],
+    "passed": [
+      {
+        "text": "{条款号 名目}",
+        "url": "（可省）条款锚点"
+      }
+    ]
+  }
+}

@@ -1,4 +1,3 @@
-<title>{APP 名} · App Store 提审交付包</title>
 <style>
 :root{
   --bg:#f5f5f7;--card:#ffffff;--line:#d2d2d7;--hair:#e8e8ed;--ink:#1d1d1f;--ink2:#6e6e73;
@@ -136,152 +135,109 @@ footer{color:var(--ink2);font-size:12px;text-align:center;padding:20px}
   .navgroup{display:none}
   main{border-left:0;padding:18px 16px 60px}
 }
-</style>
-<!--
-  提审交付包模板 v2（appstore skill）— 布局与视觉复刻 App Store Connect 后台
-  用法：保留全部 <style> 与 <script>，填占位符后写到项目 .appstore/delivery-report.html
-  结构规则：
-  ①左侧栏两组导航：APP STORE 组（总览/版本信息/App 信息/App 隐私/定价与销售范围，与 ASC 左栏一一对应）+ SKILL 产出组（提审审计/待办）
-  ②「版本信息」内字段顺序照抄 ASC 版本页：截图 → 推广文本 → 描述 → 关键词 → 支持网址 → 营销网址 → 版本 → 版权 → 构建版本 → 审核信息 → 发布设置/出口合规
-  ③字段卡 = label 上（含 字数/上限 与提示）+ value 下 + hover 出现的复制按钮
-  ④审计条目沿用三规则：依据 chip 超链接 / 标题说人话讲后果 / 术语 <span class="t" tabindex="0" data-tip="人话解释">术语</span>
-  ⑤状态徽章：.statusbar 与 .badge 的点色 = 黄（审核中/待处理）绿（通过/健康）红（被拒/必拒项）
-  ⑥导航角标 .n 填各栏字段数；审计未解决数用 .n.alert（0 则整个去掉）
+.flabel .lim.over{color:var(--crit);font-weight:700}
+.empty{color:var(--ink2);font-size:13px;padding:8px 0}
+</style><!--
+  report-viewer（appstore skill）— 交付页固定壳，参考 opendesign viewer 模式
+  本文件是随 skill 分发的固定资产：LLM 不生成、不修改它。
+  内容来自内嵌的 <script type="application/json" id="report-data">（由 scripts/build-report.py 注入）。
+  数据 schema 见 assets/report-data-template.json；字符计数由本壳现算，超限自动标红。
 -->
 <div class="topbar">
-  <span class="crumb"><b>{APP 名}</b> · iOS App {X.Y} · 提审交付包</span>
-  <span class="badge"><span class="dot"></span>{ASC 当前状态} · {日期}</span>
+  <span class="crumb" id="crumb"></span>
+  <span class="badge"><span class="dot" id="badge-dot"></span><span id="badge-text"></span></span>
 </div>
 <div class="layout">
 <aside>
-  <div class="appid"><div class="appicon">{首字}</div><div><b>{APP 名}</b><small>iOS · {X.Y} (build {N})</small></div></div>
+  <div class="appid"><div class="appicon" id="app-icon"></div><div><b id="app-name"></b><small id="app-sub"></small></div></div>
   <div class="navgroup">App Store</div>
-  <nav>
-    <button class="on" data-tab="overview">总览</button>
-    <button data-tab="version">{X.Y} 版本信息<span class="n">{字段数}</span></button>
-    <button data-tab="appinfo">App 信息<span class="n">{字段数}</span></button>
-    <button data-tab="privacy">App 隐私<span class="n">{字段数}</span></button>
-    <button data-tab="pricing">定价与销售范围</button>
-  </nav>
+  <nav id="nav-asc"></nav>
   <div class="navgroup">Skill 产出</div>
-  <nav>
-    <button data-tab="audit">审计与待办<span class="n alert">{未解决数}</span></button>
-  </nav>
+  <nav id="nav-skill"></nav>
 </aside>
-<main>
-
-<section class="on" data-tab="overview">
-  <h1>总览</h1>
-  <p class="sub">{日期} · 由 <a href="https://github.com/Shawn1993/ship-appstore" target="_blank">appstore skill</a> 生成 · 各栏目与 App Store Connect 后台页面一一对应</p>
-  <div class="statusbar"><div class="dot"></div>
-    <div><b>{一句话状态：处于哪一步}</b><p>{补充：下一步/风险}</p></div>
-  </div>
-  <div class="card"><div class="card-b">
-    <div class="steps">
-      <div class="step done">物料</div><div class="step done">构建上传</div><div class="step now">ASC 填写</div><div class="step">提交审核</div><div class="step">发布</div>
-    </div>
-    <table class="kv">
-      <tr><td>App / Bundle</td><td>{名} · <span class="ev">{bundle id}</span> · Apple ID <span class="ev">{id}</span></td></tr>
-      <tr><td>{其他关键行}</td><td>{值}</td></tr>
-    </table>
-  </div></div>
-</section>
-
-<section data-tab="version">
-  <h1>{X.Y} 版本信息</h1>
-  <p class="sub">字段顺序与 ASC「分发 → 版本页」一致，从上往下逐项对照粘贴即可</p>
-  <div class="card"><div class="card-h"><h3>App 预览和截图</h3><p>{档位} · {N} 张 · {W}×{H}</p></div><div class="card-b">
-    <div class="shotrow">
-      <figure class="shot"><img src="{相对路径}" alt="{卖点}" loading="lazy"><figcaption>{序号} · {卖点}</figcaption></figure>
-    </div>
-    <!-- iPad 行：figure 加 class="shot pad" -->
-  </div></div>
-  <div class="card"><div class="card-b">
-    <div class="field"><div class="flabel">推广文本<span class="lim">{n}/170 · 过审后可随时改，不触发重审</span></div><button class="copy">复制</button>
-      <p class="fvalue">{内容}</p></div>
-    <div class="field"><div class="flabel">描述<span class="lim">{n}/4000</span></div><button class="copy">复制</button>
-      <p class="fvalue">{内容}</p></div>
-    <div class="field"><div class="flabel">关键词<span class="lim">{n}/100 · 逗号分隔不加空格，不重复标题词</span></div><button class="copy">复制</button>
-      <p class="fvalue mono">{内容}</p></div>
-    <div class="field"><div class="flabel">技术支持网址 (URL)</div><button class="copy">复制</button><p class="fvalue mono">{URL}</p></div>
-    <div class="field"><div class="flabel">营销网址 (URL)<span class="lim">选填</span></div><button class="copy">复制</button><p class="fvalue mono">{URL}</p></div>
-    <div class="field"><div class="flabel">版本</div><button class="copy">复制</button><p class="fvalue mono">{X.Y}</p></div>
-    <div class="field"><div class="flabel">版权</div><button class="copy">复制</button><p class="fvalue">{年份 主体}</p></div>
-    <div class="field"><div class="flabel">构建版本</div><p class="fvalue">{选哪个 build 与备用策略}</p></div>
-  </div></div>
-  <div class="card"><div class="card-h"><h3>App 审核信息</h3></div><div class="card-b">
-    <div class="field"><div class="flabel">登录信息</div><p class="fvalue">{无账号→取消勾选；有账号→演示账号}</p></div>
-    <div class="field"><div class="flabel">备注</div><button class="copy">复制</button><p class="fvalue">{审核备注}</p></div>
-  </div></div>
-  <div class="card"><div class="card-h"><h3>App Store 版本发布</h3></div><div class="card-b">
-    <div class="field"><div class="flabel">发布选项</div><p class="fvalue">{自动/手动 + 理由}</p></div>
-    <div class="field"><div class="flabel">出口合规（提交时弹出）</div><p class="fvalue">{标准答案}</p></div>
-  </div></div>
-</section>
-
-<section data-tab="appinfo">
-  <h1>App 信息</h1>
-  <p class="sub">对应 ASC 左栏「App 信息」页</p>
-  <div class="card"><div class="card-b">
-    <div class="field"><div class="flabel">名称<span class="lim">{n}/30</span></div><button class="copy">复制</button><p class="fvalue">{名}</p></div>
-    <div class="field"><div class="flabel">副标题<span class="lim">{n}/30</span></div><button class="copy">复制</button><p class="fvalue">{副标题}</p></div>
-    <div class="field"><div class="flabel">类别</div><p class="fvalue">主要：{类} · 次要：{类}</p></div>
-    <div class="field"><div class="flabel">内容版权</div><p class="fvalue">{声明}</p></div>
-    <div class="field"><div class="flabel">年龄分级</div><p class="fvalue">{问卷结果}</p></div>
-    <!-- 中国区发行才有：ICP 备案字段 -->
-  </div></div>
-</section>
-
-<section data-tab="privacy">
-  <h1>App 隐私</h1>
-  <p class="sub">对应 ASC 左栏「App 隐私」页 · 问卷答完必须点「发布」才生效</p>
-  <div class="card"><div class="card-b">
-    <div class="field"><div class="flabel">隐私政策 URL</div><button class="copy">复制</button><p class="fvalue mono">{URL}</p></div>
-    <div class="field"><div class="flabel">数据收集问卷</div><p class="fvalue">{逐类答案}</p></div>
-  </div></div>
-</section>
-
-<section data-tab="pricing">
-  <h1>定价与销售范围</h1>
-  <p class="sub">对应 ASC 左栏「定价与销售范围」页 · 过审后改价格/地区不触发重审</p>
-  <div class="card"><div class="card-b">
-    <div class="field"><div class="flabel">价格</div><p class="fvalue">{档位}</p></div>
-    <div class="field"><div class="flabel">销售范围</div><p class="fvalue">{地区}</p></div>
-  </div></div>
-</section>
-
-<section data-tab="audit">
-  <h1>审计与待办</h1>
-  <p class="sub">规则库扫描结果与下一步动作 · 依据均可点击溯源</p>
-  <div class="statusbar"><div class="dot"></div><div><b>{审计总判定}</b></div></div>
-  <div class="card"><div class="card-h"><h3>下一步</h3></div><div class="card-b next">
-    <ol><li>{动作，按优先级}<small>{说明；派生自下方问题的注明关联}</small></li></ol>
-  </div></div>
-  <div class="issue crit">
-    <b class="title">{发生了什么后果，不写术语}</b>
-    <p class="d">{一两句：先影响后机制；术语用 <span class="t" tabindex="0" data-tip="大白话解释">术语</span>}</p>
-    <div class="imeta">依据 <a class="src" href="{条款/文档 URL}" target="_blank">{依据名}</a><span class="state pend">{处置时机}</span><!-- 或 <span class="state fixed">已修复 · {build}</span> --></div>
-  </div>
-  <!-- 风险项用 class="issue warn"，结构同上 -->
-  <div class="card"><div class="card-h"><h3>已核通过 · {N} 条</h3></div><div class="card-b">
-    <div class="passlist">
-      <a class="pc" href="{条款锚点}" target="_blank">{条款号 名目}</a>
-      <span class="pc">{无外链名目}</span>
-    </div>
-  </div></div>
-</section>
-
-<footer>appstore skill 提审交付包 · 栏目与 App Store Connect 后台一一对应 · <a href="https://github.com/Shawn1993/ship-appstore" target="_blank">ship-appstore</a></footer>
-</main>
+<main id="main"></main>
 </div>
+<footer>appstore skill 提审交付包 · 栏目与 App Store Connect 后台一一对应 · <a href="https://github.com/Shawn1993/ship-appstore" target="_blank">ship-appstore</a></footer>
+<script type="application/json" id="report-data">__REPORT_DATA__</script>
 <script>
-document.querySelectorAll('aside nav button').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('aside nav button').forEach(x=>x.classList.toggle('on',x===b));
-  document.querySelectorAll('main>section').forEach(p=>p.classList.toggle('on',p.dataset.tab===b.dataset.tab));
-  history.replaceState(null,'','#'+b.dataset.tab);
-  document.querySelector('main').scrollIntoView({block:'start'});
-}));
-const h=location.hash.slice(1);if(h){const b=document.querySelector(`aside nav button[data-tab="${h}"]`);b&&b.click()}
+const D = JSON.parse(document.getElementById('report-data').textContent);
+const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const h = (s) => s ?? '';           // 信任字段：允许内联 <span class="ev">/<span class="t"> 等
+const cn = s => [...String(s ?? '')].length;  // 按字符数（中文=1）
+
+/* ---------- 顶栏与侧栏 ---------- */
+document.title = `${D.app.name} · App Store 提审交付包`;
+document.getElementById('crumb').innerHTML = `<b>${esc(D.app.name)}</b> · iOS App ${esc(D.app.version)} · 提审交付包`;
+document.getElementById('badge-text').textContent = D.status.badge;
+document.getElementById('badge-dot').style.background = `var(--${D.status.tone||'warn'})`;
+document.getElementById('app-icon').textContent = D.app.icon_char || D.app.name[0];
+document.getElementById('app-name').textContent = D.app.name;
+document.getElementById('app-sub').textContent = `iOS · ${D.app.version} (build ${D.app.build})`;
+
+/* ---------- 渲染原语 ---------- */
+const field = f => {
+  let lim = '';
+  if (f.limit) {
+    const n = cn(f.value.replace(/<[^>]+>/g,''));
+    lim = `<span class="lim${n>f.limit?' over':''}">${n}/${f.limit}${f.note?' · '+esc(f.note):''}</span>`;
+  } else if (f.note) lim = `<span class="lim">${esc(f.note)}</span>`;
+  return `<div class="field"><div class="flabel">${esc(f.label)}${lim}</div>${f.copy===false?'':'<button class="copy">复制</button>'}<p class="fvalue${f.mono?' mono':''}">${h(f.value)}</p></div>`;
+};
+const card = (title, subtitle, inner) => `<div class="card">${title?`<div class="card-h"><h3>${esc(title)}</h3>${subtitle?`<p>${esc(subtitle)}</p>`:''}</div>`:''}<div class="card-b">${inner}</div></div>`;
+const fieldsCard = (arr, title, subtitle) => card(title, subtitle, arr.map(field).join(''));
+const statusbar = s => `<div class="statusbar ${s.tone||''}"><div class="dot" style="background:var(--${s.tone||'warn'})"></div><div><b>${h(s.headline)}</b>${s.detail?`<p>${h(s.detail)}</p>`:''}</div></div>`;
+const issue = i => `<div class="issue ${i.severity}"><b class="title">${h(i.title)}</b><p class="d">${h(i.desc)}</p><div class="imeta">依据 <a class="src" href="${i.source.url}" target="_blank">${esc(i.source.label)}</a><span class="state ${i.state.type}">${esc(i.state.text)}</span></div></div>`;
+const shotrow = g => `<div class="shotrow">${g.items.map(it=>`<figure class="shot${g.pad?' pad':''}"><img src="${it.src}" alt="${esc(it.caption)}" loading="lazy"><figcaption>${esc(it.caption)}</figcaption></figure>`).join('')}</div>`;
+
+/* ---------- 各栏目 ---------- */
+const sections = [];
+sections.push({id:'overview', nav:'总览', group:'asc', html:
+  `<h1>总览</h1><p class="sub">${h(D.meta)}</p>` + statusbar(D.status) +
+  card(null, null,
+    `<div class="steps">${D.status.steps.map(s=>`<div class="step ${s.state||''}">${esc(s.label)}</div>`).join('')}</div>` +
+    `<table class="kv">${D.key_info.map(r=>`<tr><td>${esc(r[0])}</td><td>${h(r[1])}</td></tr>`).join('')}</table>`)});
+
+let vhtml = `<h1>${esc(D.app.version)} 版本信息</h1><p class="sub">字段顺序与 ASC「分发 → 版本页」一致，从上往下逐项对照粘贴即可</p>`;
+if (D.screenshots?.length){
+  vhtml += card('App 预览和截图', D.screenshots[0].subtitle||'', D.screenshots.map(shotrow).join('') + (D.shots_warning?issue(D.shots_warning):''));
+}
+vhtml += fieldsCard(D.version_fields);
+if (D.review_info?.length) vhtml += fieldsCard(D.review_info, 'App 审核信息');
+if (D.release_info?.length) vhtml += fieldsCard(D.release_info, 'App Store 版本发布');
+sections.push({id:'version', nav:`${D.app.version} 版本信息`, count:D.version_fields.length+(D.review_info?.length||0)+(D.release_info?.length||0), group:'asc', html:vhtml});
+
+sections.push({id:'appinfo', nav:'App 信息', count:D.appinfo_fields.length, group:'asc', html:
+  `<h1>App 信息</h1><p class="sub">对应 ASC 左栏「App 信息」页</p>` + fieldsCard(D.appinfo_fields) + (D.appinfo_issue?issue(D.appinfo_issue):'')});
+sections.push({id:'privacy', nav:'App 隐私', count:D.privacy_fields.length, group:'asc', html:
+  `<h1>App 隐私</h1><p class="sub">对应 ASC 左栏「App 隐私」页 · 问卷答完必须点「发布」才生效</p>` + fieldsCard(D.privacy_fields)});
+sections.push({id:'pricing', nav:'定价与销售范围', group:'asc', html:
+  `<h1>定价与销售范围</h1><p class="sub">对应 ASC 左栏「定价与销售范围」页 · 过审后改价格/地区不触发重审</p>` + fieldsCard(D.pricing_fields)});
+
+const unresolved = D.audit.issues.filter(i=>i.state.type!=='fixed').length;
+sections.push({id:'audit', nav:'审计与待办', count:unresolved, alert:unresolved>0, group:'skill', html:
+  `<h1>审计与待办</h1><p class="sub">${h(D.audit.sub||'规则库扫描结果与下一步动作 · 依据均可点击溯源')}</p>` +
+  statusbar(D.audit.status) +
+  card('下一步', null, `<div class="next"><ol>${D.audit.next.map(n=>`<li>${h(n.title)}<small>${h(n.note)}</small></li>`).join('')}</ol></div>`) +
+  D.audit.issues.map(issue).join('') +
+  card(`已核通过 · ${D.audit.passed.length} 条`, null,
+    `<div class="passlist">${D.audit.passed.map(p=>p.url?`<a class="pc" href="${p.url}" target="_blank">${esc(p.text)}</a>`:`<span class="pc">${esc(p.text)}</span>`).join('')}</div>`)});
+
+/* ---------- 挂载 + 交互 ---------- */
+const main = document.getElementById('main');
+for (const s of sections){
+  const sec = document.createElement('section'); sec.dataset.tab = s.id; sec.innerHTML = s.html; main.appendChild(sec);
+  const btn = document.createElement('button'); btn.dataset.tab = s.id;
+  btn.innerHTML = esc(s.nav) + (s.count?`<span class="n${s.alert?' alert':''}">${s.count}</span>`:'');
+  document.getElementById(s.group==='asc'?'nav-asc':'nav-skill').appendChild(btn);
+}
+const buttons = [...document.querySelectorAll('aside nav button')];
+function activate(id){
+  buttons.forEach(x=>x.classList.toggle('on', x.dataset.tab===id));
+  [...main.children].forEach(p=>p.classList.toggle('on', p.dataset.tab===id));
+  history.replaceState(null,'','#'+id);
+}
+buttons.forEach(b=>b.addEventListener('click',()=>activate(b.dataset.tab)));
+activate(location.hash.slice(1) && sections.some(s=>s.id===location.hash.slice(1)) ? location.hash.slice(1) : 'overview');
 document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{
   const t=b.parentElement.querySelector('.fvalue').textContent;
   try{await navigator.clipboard.writeText(t)}catch(e){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}
