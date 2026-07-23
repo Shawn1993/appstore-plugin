@@ -1,4 +1,4 @@
-# appstore-plugin
+# ship-appstore
 
 App Store 全生命周期管理的 Claude Code plugin。从「只给一个网站 URL」到提审通过，一条龙覆盖：
 
@@ -21,7 +21,7 @@ App Store 全生命周期管理的 Claude Code plugin。从「只给一个网站
 **万能一行命令**（自动装进本机所有支持 Agent Skills 标准的 agent —— Claude Code / Codex / Gemini CLI / OpenClaw / Hermes…）：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Shawn1993/appstore-plugin/main/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/Shawn1993/ship-appstore/main/install.sh | sh
 ```
 
 更新也是重跑这一条。装到自定义位置：`SKILLS_DIR=<目录> sh install.sh`
@@ -33,7 +33,7 @@ curl -fsSL https://raw.githubusercontent.com/Shawn1993/appstore-plugin/main/inst
 
 | Agent | 方式 |
 |---|---|
-| Claude Code（plugin 方式） | `/plugin marketplace add Shawn1993/appstore-plugin` → `/plugin install appstore@appstore-plugin` |
+| Claude Code（plugin 方式） | `/plugin marketplace add Shawn1993/ship-appstore` → `/plugin install appstore@ship-appstore` |
 | Claude Code（skill 方式） | 复制 `skills/appstore` → `~/.claude/skills/` |
 | Codex | 复制 `skills/appstore` → `~/.codex/skills/` |
 | Gemini CLI | 复制 `skills/appstore` → `~/.gemini/skills/` |
@@ -81,6 +81,16 @@ skills/appstore/
 
 - App Store Connect API Key（.p8，放 `~/.appstoreconnect/private_keys/`）——构建直传与 asc CLI 需要
 - 可选：`brew install asc`（元数据自动化）、codex CLI（截图设计稿图生图）
+
+## 致谢
+
+本 skill 站在这些开源项目的肩膀上：
+
+- [truongduy2611/app-store-preflight-skills](https://github.com/truongduy2611/app-store-preflight-skills)（MIT）— 内置拒审规则库的来源，按 app 类型的检查单与规则组织方式极佳
+- [rudrankriyam/App-Store-Connect-CLI](https://github.com/rudrankriyam/App-Store-Connect-CLI) 与 [rorkai/app-store-connect-cli-skills](https://github.com/rorkai/app-store-connect-cli-skills) — asc CLI 及其用法模式，本 skill 的元数据/提审自动化知识多提炼于此
+- [Eronred/aso-skills](https://github.com/Eronred/aso-skills) — ASO 方法论的重要参考（关键词框架、评分弹窗策略、编辑精选技巧等）
+- [trunghaiy/appshot](https://github.com/trunghaiy/appshot) 与 [NaufalRusada/claude-skill-appstore-screenshots](https://github.com/NaufalRusada/claude-skill-appstore-screenshots) — 商店截图生产管线的参考
+- [VoltAgent/awesome-agent-skills](https://github.com/VoltAgent/awesome-agent-skills)、[travisvn/awesome-claude-skills](https://github.com/travisvn/awesome-claude-skills) — 优秀 skill 的发现入口
 
 ## License
 

@@ -1,10 +1,10 @@
 #!/bin/sh
 # appstore skill 万能安装器 —— 自动装进本机所有支持 Agent Skills 标准的 agent
-#   curl -fsSL https://raw.githubusercontent.com/Shawn1993/appstore-plugin/main/install.sh | sh
+#   curl -fsSL https://raw.githubusercontent.com/Shawn1993/ship-appstore/main/install.sh | sh
 # 可选：SKILLS_DIR=/path/to/skills sh install.sh   # 只装到指定目录
 set -eu
 
-REPO="Shawn1993/appstore-plugin"
+REPO="Shawn1993/ship-appstore"
 SKILL="appstore"
 TMP=""
 
