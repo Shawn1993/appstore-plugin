@@ -1,0 +1,22 @@
+<!doctype html><meta charset="utf-8">
+<style>
+/* 模板 T1「hero-blocks」— 源自 Figma 库帧1：纯色底+旋转色块装饰，大标题，机身底部出血
+   画布 1290×2796；换主题只改 :root 四个变量 */
+:root{ --bg:#00268f; --deco:#001f75; --ink:#ffffff; --title-size:128px; }
+*{margin:0;box-sizing:border-box}
+html,body{width:1290px;height:2796px;overflow:hidden}
+body{background:var(--bg);position:relative;font-family:-apple-system,"PingFang SC","Noto Sans SC",sans-serif}
+.deco{position:absolute;background:var(--deco);width:1400px;height:1400px;transform:rotate(14deg)}
+.title{position:absolute;left:100px;top:360px;color:var(--ink);font-size:var(--title-size);line-height:1.28;font-weight:600;letter-spacing:.02em;white-space:pre-line}
+.sub{position:absolute;left:104px;top:760px;color:var(--ink);opacity:.82;font-size:56px;font-weight:500}
+.device{position:absolute;left:50%;transform:translateX(-50%);top:1080px;width:1030px;height:2107px;background:#0b0b0d;border-radius:150px;padding:26px;box-shadow:0 60px 140px -40px rgba(0,0,0,.55)}
+.device .screen{width:100%;height:100%;border-radius:124px;overflow:hidden;background:#fff;position:relative}
+.device .screen img{width:100%;height:100%;object-fit:cover;object-position:top}
+.island{position:absolute;top:56px;left:50%;transform:translateX(-50%);width:290px;height:84px;background:#0b0b0d;border-radius:60px;z-index:2}
+</style>
+<div class="deco" style="left:-620px;top:-560px"></div>
+<div class="deco" style="left:760px;top:1900px;transform:rotate(-11deg)"></div>
+<h1 class="title">把千年法帖
+装进口袋</h1>
+<p class="sub">历代名家碑帖 · 随时临摹</p>
+<div class="device"><div class="screen"><div class="island"></div><img src="{SCREENSHOT_PATH}" alt=""></div></div>
